@@ -1,0 +1,401 @@
+$def with (message, rid, bucket, title, des, price, location, status)
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>New Post</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+        background-color: #f5f5f5;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      @media (max-width: 980px) {
+        /* Enable use of floated navbar text */
+        .navbar-text.pull-right {
+          float: none;
+          padding-left: 5px;
+          padding-right: 5px;
+        }
+      }
+      
+      .form-signin {
+        	max-width: 800px;
+	        padding: 19px 29px 29px;
+	        margin: auto auto 20px;
+	        background-color: #fff;
+	        border: 1px solid #e5e5e5;
+	        -webkit-border-radius: 5px;
+	           -moz-border-radius: 5px;
+	                border-radius: 5px;
+        	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+           	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+                	box-shadow: 0 1px 2px rgba(0,0,0,.05);
+      	}
+      	.form-signin .form-signin-heading,
+      	.form-signin .checkbox {
+       		margin-bottom: 10px;
+      	}
+      	.form-signin input[type="text"],
+      	.form-signin input[type="password"] {
+        	font-size: 16px;
+        	height: auto;
+       		margin-bottom: 15px;
+        	padding: 7px 9px;
+      	}
+      
+    </style>
+    <link href="../static/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <script src="../static/js/holder.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.js"></script>
+    <script type="text/javascript" src="../static/js/bootstrap.js"></script>
+  </head>
+
+  <body>
+    $if message != None:
+    $for m in message:
+        <b>$m</b>
+        <br>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href="/">Room Rental</a>
+          <div class="nav-collapse collapse">
+            <p class="navbar-text pull-right">
+<!--               <a href="#" class="navbar-link">Sign in</a>
+              or
+              <a href="#" class="navbar-link">Log in</a> -->
+            </p>
+            <ul class="nav">
+<!--               <li><a href="#">New</a></li>
+              <li><a href="#">ALL</a></li>
+              <li><a href="#about">Profile</a></li>
+              <li>
+              	<form class="navbar-search">
+  			  		<input type="text" class="search-query" placeholder="Search">
+			  	</form> -->
+              </li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+ 	<div class="container">
+
+      	<form action="/new" enctype="multipart/form-data" method="POST" class="form-signin form-horizontal">
+
+            <input type="hidden" name="rid" value=$rid>
+
+  <div class="control-group">
+    <label class="control-label" for="inputpostname">Title</label>
+    <div class="controls">
+      <input type="text" name="tit" placeholder="Post title" value = $title>
+    </div>
+  </div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpostname">Description</label>
+    <div class="controls">
+      <input type="text" name="des" placeholder="Description" value = $des>
+    </div>
+  </div>
+
+    <div class="control-group">
+    <label class="control-label" for="inputpostname">Location</label>
+    <div class="controls">
+      <input type="text" name="loc" placeholder="Location" value=$location>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputName">Price</label>
+    <div class="controls">
+      <input type="text" name="price" placeholder="Price" value=$price>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="inputName">Status</label>
+    <div class="controls">
+            $if status=='1':
+                <td>
+                    <select name="status">
+                    <option value="1" selected="selected">Rented</option>
+                    <option value="0">Not rented yet</option>
+                    </select>
+                </td>
+            $else:
+                <td>
+                    <select name="status">
+                    <option value="1">Rented</option>
+                    <option value="0" selected="selected">Not rented yet</option>
+                    </select>
+                </td>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputName">Name</label>
+    <div class="controls">
+      <input type="text" name="name" placeholder="Uploaded image name">
+    </div>
+  </div>
+
+<div class="control-group">
+    <label class="control-label" for="inputRoomtype">Room Type</label>
+    <div class="controls">
+        <select name="rooms" id="inputRoomtype">
+        <option value="bed">Bedroom</option>
+        <option value="bat">Bathroom</option>
+        <option value="din">Dinning room</option>
+        <option value="kit">Kitchen</option>
+        <option value="liv">Living room</option>
+        <option value="oth">Other</option>
+        </select>
+    </div>
+  </div>
+
+<div class="control-group">
+    <label class="control-label" for="inputName">File Upload</label>
+    <div class="controls">
+      <input type='file' name="file2up">
+    </div>
+  </div>
+
+    <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn btn-success">Upload</button>
+      <a class="btn" href="/">Cancel &raquo;</a>
+    </div>
+  </div>
+</form>
+
+<table border="1">
+        $if bucket:
+            <tr id='10'>
+            $for key in bucket:
+                $if key.name[0:4]=='bed/':
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    $key.name[4:]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://s3.amazonaws.com/$bucket.name/$key.name" width="150" height="150">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form action="/del" method="POST">
+                                    <input type="hidden" name="bucketname" value=$bucket.name>
+                                    <input type="hidden" name="keyname" value=$key.name>
+                                    <input type="hidden" name="rid" value=$rid>
+                                    <input type="hidden" name="tit" value=$title>
+                                    <input type="hidden" name="des" value=$des>
+                                    <input type="hidden" name="status" value=$status>
+                                    <input type="hidden" name="location" value=$location>
+                                    <input type="hidden" name="price" value=$price>
+                                    <input type="submit" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            </tr>
+            <tr id='20'>
+            $for key in bucket:
+                $if key.name[0:4]=='bat/':
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    $key.name[4:]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://s3.amazonaws.com/$bucket.name/$key.name" width="150" height="150">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form action="/del" method="POST">
+                                    <input type="hidden" name="bucketname" value=$bucket.name>
+                                    <input type="hidden" name="keyname" value=$key.name>
+                                    <input type="hidden" name="rid" value=$rid>
+                                    <input type="hidden" name="des" value=$des>
+                                    <input type="hidden" name="tit" value=$title>
+                                    <input type="hidden" name="status" value=$status>
+                                    <input type="hidden" name="location" value=$location>
+                                    <input type="hidden" name="price" value=$price>
+                                    <input type="submit" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            </tr>
+            <tr id='30'>
+            $for key in bucket:
+                $if key.name[0:4]=='din/':
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    $key.name[4:]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://s3.amazonaws.com/$bucket.name/$key.name" width="150" height="150">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form action="/del" method="POST">
+                                    <input type="hidden" name="bucketname" value=$bucket.name>
+                                    <input type="hidden" name="keyname" value=$key.name>
+                                    <input type="hidden" name="rid" value=$rid>
+                                    <input type="hidden" name="des" value=$des>
+                                    <input type="hidden" name="tit" value=$title>
+                                    <input type="hidden" name="status" value=$status>
+                                    <input type="hidden" name="location" value=$location>
+                                    <input type="hidden" name="price" value=$price>
+                                    <input type="submit" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            </tr>
+            <tr id='40'>
+            $for key in bucket:
+                $if key.name[0:4]=='kit/':
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    $key.name[4:]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://s3.amazonaws.com/$bucket.name/$key.name" width="150" height="150">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form action="/del" method="POST">
+                                    <input type="hidden" name="bucketname" value=$bucket.name>
+                                    <input type="hidden" name="keyname" value=$key.name>
+                                    <input type="hidden" name="rid" value=$rid>
+                                    <input type="hidden" name="tit" value=$title>
+                                    <input type="hidden" name="des" value=$des>
+                                    <input type="hidden" name="status" value=$status>
+                                    <input type="hidden" name="price" value=$price>
+                                    <input type="hidden" name="location" value=$location>
+                                    <input type="submit" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            </tr>
+            <tr id='50'>
+            $for key in bucket:
+                $if key.name[0:4]=='liv/':
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    $key.name[4:]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://s3.amazonaws.com/$bucket.name/$key.name" width="150" height="150">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form action="/del" method="POST">
+                                    <input type="hidden" name="bucketname" value=$bucket.name>
+                                    <input type="hidden" name="keyname" value=$key.name>
+                                    <input type="hidden" name="rid" value=$rid>
+                                    <input type="hidden" name="des" value=$des>
+                                    <input type="hidden" name="tit" value=$title>
+                                    <input type="hidden" name="status" value=$status>
+                                    <input type="hidden" name="location" value=$location>
+                                    <input type="hidden" name="price" value=$price>
+                                    <input type="submit" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            </tr>
+            <tr id='60'>
+            $for key in bucket:
+                $if key.name[0:4] == 'oth/':
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    $key.name[4:]
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="https://s3.amazonaws.com/$bucket.name/$key.name" width="150" height="150">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form action="/del" method="POST">
+                                    <input type="hidden" name="bucketname" value=$bucket.name>
+                                    <input type="hidden" name="keyname" value=$key.name>
+                                    <input type="hidden" name="rid" value=$rid>
+                                    <input type="hidden" name="des" value=$des>
+                                    <input type="hidden" name="tit" value=$title>
+                                    <input type="hidden" name="status" value=$status>
+                                    <input type="hidden" name="price" value=$price>
+                                    <input type="hidden" name="location" value=$location>
+                                    <input type="submit" value="Delete">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+            </tr>
+</table>
+
+    </div> <!-- /container -->
+
+      <hr>
+
+
+    </div><!--/.fluid-container-->
+  </body>
+</html>
